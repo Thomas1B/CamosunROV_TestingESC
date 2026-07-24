@@ -1,0 +1,5 @@
+../Core/Motors/motors.c:25:24:throttleToPulse	16	static
+../Core/Motors/motors.c:35:20:motor_write	32	static
+../Core/Motors/motors.c:43:6:motor1	16	static
+../Core/Motors/motors.c:51:6:motor2	16	static
+../Core/Motors/motors.c:56:6:reset_motors	4	static
