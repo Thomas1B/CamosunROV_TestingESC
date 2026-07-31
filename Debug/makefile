@@ -62,8 +62,8 @@ all: main-build
 main-build: CamosunROV_TestingESC.elf secondary-outputs
 
 # Tool invocations
-CamosunROV_TestingESC.elf CamosunROV_TestingESC.map: $(OBJS) $(USER_OBJS) C:\Users\thoma\STM32CubeIDE\workspace_2.1.1\CamosunROV\CamosunROV_TestingESC\STM32F446RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "CamosunROV_TestingESC.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\thoma\STM32CubeIDE\workspace_2.1.1\CamosunROV\CamosunROV_TestingESC\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="CamosunROV_TestingESC.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
+CamosunROV_TestingESC.elf CamosunROV_TestingESC.map: $(OBJS) $(USER_OBJS) C:\Users\thoma\STM32CubeIDE\workspace_2.1.1\CamosunROV_TestingESC\STM32F446RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "CamosunROV_TestingESC.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\thoma\STM32CubeIDE\workspace_2.1.1\CamosunROV_TestingESC\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="CamosunROV_TestingESC.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

@@ -112,6 +112,7 @@ int main(void) {
 	HAL_TIM_PWM_Start(MOTOR2_TIM, MOTOR2_CHANNEL); // Start PWM on TIM3 Channel 2
 
 	__HAL_TIM_ENABLE_IT(&htim1, TIM_IT_BREAK); // <-- enable the break interrupt
+	__HAL_TIM_ENABLE_IT(&htim8, TIM_IT_BREAK); // <-- enable the break interrupt
 
 	/* USER CODE END 2 */
 
@@ -127,6 +128,10 @@ int main(void) {
 
 		motor1(throttle_percent);
 		motor2(throttle_percent);
+		motor3(throttle_percent);
+		motor4(throttle_percent);
+		motor5(throttle_percent);
+		motor6(throttle_percent);
 
 		if (HAL_GPIO_ReadPin(BTN1_GPIO_Port, BTN1_Pin) == 1) {
 			HAL_GPIO_WritePin(GREENLED_GPIO_Port, GREENLED_Pin, GPIO_PIN_RESET);
@@ -501,7 +506,7 @@ int __io_putchar(int ch) {
 }
 
 void HAL_TIMEx_BreakCallback(TIM_HandleTypeDef *htim) {
-	if (htim->Instance == TIM1) {
+	if (htim->Instance == TIM1 || htim->Instance == TIM8) {
 		HAL_GPIO_WritePin(GREENLED_GPIO_Port, GREENLED_Pin, GPIO_PIN_SET);
 	}
 }

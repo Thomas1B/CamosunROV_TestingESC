@@ -38,6 +38,14 @@ static inline void motor_write(TIM_HandleTypeDef *htim, uint32_t channel,
 }
 
 void reset_motors() {
+
+	motor1(0);
+	motor2(0);
+	motor3(0);
+	motor4(0);
+	motor5(0);
+	motor6(0);
+
 	__HAL_TIM_MOE_ENABLE(&htim1);
 	__HAL_TIM_CLEAR_FLAG(&htim1, TIM_FLAG_BREAK);
 
@@ -65,7 +73,7 @@ void motor2(int8_t throttlePercent) {
  * @brief Sets motor 3 throttle
  * @param throttlePercent Throttle value as a percentage (-100 to 100).
  */
-void motor3(int8_t throttlePerecent) {
+void motor3(int8_t throttlePercent) {
 	motor_write(MOTOR3_TIM, MOTOR3_CHANNEL, throttlePercent);
 }
 
@@ -73,7 +81,7 @@ void motor3(int8_t throttlePerecent) {
  * @brief Sets motor 4 throttle
  * @param throttlePercent Throttle value as a percentage (-100 to 100).
  */
-void motor4(int8_t throttlePerecent) {
+void motor4(int8_t throttlePercent) {
 	motor_write(MOTOR4_TIM, MOTOR4_CHANNEL, throttlePercent);
 }
 
@@ -81,7 +89,7 @@ void motor4(int8_t throttlePerecent) {
  * @brief Sets motor 5 throttle
  * @param throttlePercent Throttle value as a percentage (-100 to 100).
  */
-void motor5(int8_t throttlePerecent) {
+void motor5(int8_t throttlePercent) {
 	motor_write(MOTOR5_TIM, MOTOR5_CHANNEL, throttlePercent);
 }
 
@@ -89,7 +97,7 @@ void motor5(int8_t throttlePerecent) {
  * @brief Sets motor 6 throttle
  * @param throttlePercent Throttle value as a percentage (-100 to 100).
  */
-void motor6(int8_t throttlePerecent) {
+void motor6(int8_t throttlePercent) {
 	motor_write(MOTOR6_TIM, MOTOR6_CHANNEL, throttlePercent);
 }
 
