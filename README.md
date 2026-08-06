@@ -11,14 +11,19 @@ Product:
 
 ## ESC control
 
-Each ESC is driven by a PWM channel updated through one of six functions in `motors.c` — `motor1()` through `motor6()`, one per motor — each taking a single `throttlePercent` argument. A throttle value of `-100` to `100` is linearly mapped to a `1100–1900 µs` pulse width (1500 µs = neutral/stop), then written directly into the timer's capture/compare register:
+Each ESC is driven by a PWM channel updated through one of six functions in `motors.c` — `motor1()` through `motor6()`, one per motor — each taking a single `throttlePercent` argument (`int32_t`). A throttle value of `-100` to `100` is linearly mapped to a `1100–1900 µs` pulse width (1500 µs = neutral/stop), then written directly into the timer's capture/compare register. Values outside `-100`–`100` are clamped before mapping, so an out-of-range input saturates at the min/max pulse width instead of being extrapolated into an invalid compare value:
 
 ```c
-static inline uint32_t throttleToPulse(int8_t throttlePercent) {
+static inline uint32_t throttleToPulse(int32_t throttlePercent) {
+    if (throttlePercent > 100) {
+        throttlePercent = 100;
+    } else if (throttlePercent < -100) {
+        throttlePercent = -100;
+    }
     return lroundf(map(throttlePercent, -100.0f, 100.0f, 1100.0f, 1900.0f));
 }
 
-static inline void motor_write(TIM_HandleTypeDef *htim, uint32_t channel, int8_t throttlePercent) {
+static inline void motor_write(TIM_HandleTypeDef *htim, uint32_t channel, int32_t throttlePercent) {
     __HAL_TIM_SET_COMPARE(htim, channel, throttleToPulse(throttlePercent));
 }
 ```
