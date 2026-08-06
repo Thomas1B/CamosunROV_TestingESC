@@ -29,12 +29,12 @@ extern TIM_HandleTypeDef htim8; /* the real variable lives in main.c */
 
 void reset_motors();
 
-void motor1(int8_t throttlePercent);
-void motor2(int8_t throttlePercent);
-void motor3(int8_t throttlePercent);
-void motor4(int8_t throttlePercent);
-void motor5(int8_t throttlePercent);
-void motor6(int8_t throttlePercent);
+void motor1(int32_t throttlePercent);
+void motor2(int32_t throttlePercent);
+void motor3(int32_t throttlePercent);
+void motor4(int32_t throttlePercent);
+void motor5(int32_t throttlePercent);
+void motor6(int32_t throttlePercent);
 
 
 #endif
