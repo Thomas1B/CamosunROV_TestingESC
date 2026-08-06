@@ -41,7 +41,7 @@ static inline void motor_write(TIM_HandleTypeDef *htim, uint32_t channel, int32_
 | 5 | TIM8 | 1 |
 | 6 | TIM8 | 2 |
 
-TIM1 and TIM8 are both advanced-control timers with break-input support, which this project uses as a hardware fault line (`TIM_IT_BREAK`): if a break event fires, PWM output is cut and `HAL_TIMEx_BreakCallback()` lights an indicator LED. `reset_motors()` is required to clear the break flag and re-arm the outputs.
+TIM1 and TIM8 are both advanced-control timers with break-input support, which this project uses as a hardware fault line (`TIM_IT_BREAK`). The break input (BKIN) on each timer is wired to the hull's leak sensor and is configured active-high (`BreakPolarity = TIM_BREAKPOLARITY_HIGH`), so a leak sensor output going high directly and immediately cuts all PWM output at the timer hardware level, regardless of what the firmware is doing at that instant. `HAL_TIMEx_BreakCallback()` then fires to light an indicator LED. `reset_motors()` is required to clear the latched break flag and re-arm the outputs once the fault condition has cleared.
 
 ## PWM timer settings
 
