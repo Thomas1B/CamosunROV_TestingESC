@@ -19,10 +19,18 @@
 
 /*
  * @brief Converts throttle percentage to pulse width between 1100us and 1900us.
- * @param throttlePercent: throttle input, range -100% to +100%.
+ * @param throttlePercent: throttle input, expected range -100% to +100%.
+ *        Values outside this range are clamped before mapping, so a bad
+ *        input saturates at min/max pulse width instead of being
+ *        extrapolated by map() into an out-of-range compare value.
  * @retval Pulse width in microseconds.
  */
-static inline uint32_t throttleToPulse(int8_t throttlePercent) {
+static inline uint32_t throttleToPulse(int32_t throttlePercent) {
+	if (throttlePercent > 100) {
+		throttlePercent = 100;
+	} else if (throttlePercent < -100) {
+		throttlePercent = -100;
+	}
 	return lroundf(map(throttlePercent, -100.0f, 100.0f, 1100.0f, 1900.0f));
 }
 
@@ -31,9 +39,10 @@ static inline uint32_t throttleToPulse(int8_t throttlePercent) {
  * @param htim Pointer to the timer handle driving the PWM output.
  * @param channel Timer channel to update.
  * @param throttlePercent Throttle value as a percentage (-100 to 100).
+ *        Out-of-range values are clamped in throttleToPulse().
  */
 static inline void motor_write(TIM_HandleTypeDef *htim, uint32_t channel,
-		int8_t throttlePercent) {
+		int32_t throttlePercent) {
 	__HAL_TIM_SET_COMPARE(htim, channel, throttleToPulse(throttlePercent));
 }
 
@@ -57,7 +66,7 @@ void reset_motors() {
  * @brief Sets motor 1 throttle
  * @param throttlePercent Throttle value as a percentage (-100 to 100).
  */
-void motor1(int8_t throttlePercent) {
+void motor1(int32_t throttlePercent) {
 	motor_write(MOTOR1_TIM, MOTOR1_CHANNEL, throttlePercent);
 }
 
@@ -65,7 +74,7 @@ void motor1(int8_t throttlePercent) {
  * @brief Sets motor 2 throttle
  * @param throttlePercent Throttle value as a percentage (-100 to 100).
  */
-void motor2(int8_t throttlePercent) {
+void motor2(int32_t throttlePercent) {
 	motor_write(MOTOR2_TIM, MOTOR2_CHANNEL, throttlePercent);
 }
 
@@ -73,7 +82,7 @@ void motor2(int8_t throttlePercent) {
  * @brief Sets motor 3 throttle
  * @param throttlePercent Throttle value as a percentage (-100 to 100).
  */
-void motor3(int8_t throttlePercent) {
+void motor3(int32_t throttlePercent) {
 	motor_write(MOTOR3_TIM, MOTOR3_CHANNEL, throttlePercent);
 }
 
@@ -81,7 +90,7 @@ void motor3(int8_t throttlePercent) {
  * @brief Sets motor 4 throttle
  * @param throttlePercent Throttle value as a percentage (-100 to 100).
  */
-void motor4(int8_t throttlePercent) {
+void motor4(int32_t throttlePercent) {
 	motor_write(MOTOR4_TIM, MOTOR4_CHANNEL, throttlePercent);
 }
 
@@ -89,7 +98,7 @@ void motor4(int8_t throttlePercent) {
  * @brief Sets motor 5 throttle
  * @param throttlePercent Throttle value as a percentage (-100 to 100).
  */
-void motor5(int8_t throttlePercent) {
+void motor5(int32_t throttlePercent) {
 	motor_write(MOTOR5_TIM, MOTOR5_CHANNEL, throttlePercent);
 }
 
@@ -97,9 +106,6 @@ void motor5(int8_t throttlePercent) {
  * @brief Sets motor 6 throttle
  * @param throttlePercent Throttle value as a percentage (-100 to 100).
  */
-void motor6(int8_t throttlePercent) {
+void motor6(int32_t throttlePercent) {
 	motor_write(MOTOR6_TIM, MOTOR6_CHANNEL, throttlePercent);
 }
-
-
-
